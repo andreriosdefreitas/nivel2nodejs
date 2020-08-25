@@ -9,10 +9,6 @@
         "prettier/@typescript-eslint",
         "plugin:prettier/recommended"
     ],
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 2018,
@@ -23,14 +19,14 @@
         "prettier"
     ],
     "rules": {
+        "prettier/prettier": "error",
         "import/extensions": [
             "error",
             "ignorePackages",
             {
                 "ts": "never"
             }
-        ],
-        "prettier/prettier": "error"
+        ]
     },
     "settings": {
         "import/resolver": {

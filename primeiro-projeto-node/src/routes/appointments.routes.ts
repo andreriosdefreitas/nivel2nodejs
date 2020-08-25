@@ -1,5 +1,6 @@
-import {Router, response} from 'express';
-import {uuid} from 'uuidv4';
+import { Router, response } from 'express';
+import { uuid } from 'uuidv4';
+import { startOfHour, parseISO, isEqual } from 'date-fns';
 
 const appointmentsRouter = Router();
 
@@ -8,11 +9,17 @@ const appointments = [];
 appointmentsRouter.post('/', (request, response) => {
     const { provider, date } = request.body;
 
+    const parsedDate = startOfHour(parseISO(date));
+
+    const findAppointmentInSameDate = appointments.find(appointment =>
+        isEqual(parsedDate, appointment.date),
+    );
+
     const appointment = {
         id: uuid(),
         provider,
-        date
-    }
+        data: parsedDate,
+    };
 
     appointments.push(appointment);
     return response.json(appointment);
