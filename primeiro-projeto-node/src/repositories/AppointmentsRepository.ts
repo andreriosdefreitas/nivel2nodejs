@@ -21,6 +21,10 @@ class AppointmentsRepository {
         this.appointments.push(appointment);
         return appointment;
     }
+
+    public all(): Appointment[] {
+        return this.appointments;
+    }
 }
 
 export default AppointmentsRepository;
