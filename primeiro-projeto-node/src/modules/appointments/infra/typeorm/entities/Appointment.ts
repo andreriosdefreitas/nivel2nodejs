@@ -1,3 +1,4 @@
+import User from '@modules/users/infra/typeorm/entities/User';
 /* eslint-disable camelcase */
 import {
     Entity,
@@ -8,7 +9,6 @@ import {
     ManyToOne,
     JoinColumn,
 } from 'typeorm';
-import User from './User';
 
 @Entity('appointments')
 class Appointment {

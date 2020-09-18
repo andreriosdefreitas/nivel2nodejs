@@ -1,9 +1,9 @@
+import CreateUserService from '@modules/users/services/CreateUserService';
+import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService';
 import { Router } from 'express';
 import multer from 'multer';
-import CreateUserService from '../../modules/users/services/CreateUserService';
-import ensureAuthenticated from '../middleware/ensureAuthenticated';
-import uploadConfig from '../../config/upload';
-import UpdateUserAvatarService from '../../modules/users/services/UpdateUserAvatarService';
+import uploadConfig from '@config/upload';
+import ensureAuthtenticated from '../middleware/ensureAuthenticated';
 
 const usersRouter = Router();
 const upload = multer(uploadConfig);
@@ -18,7 +18,7 @@ usersRouter.post('/', async (request, response) => {
 
 usersRouter.patch(
     '/avatar',
-    ensureAuthenticated,
+    ensureAuthtenticated,
     upload.single('avatar'),
     async (request, response) => {
         const updateUserAvatarService = new UpdateUserAvatarService();
