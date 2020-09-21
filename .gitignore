@@ -1,3 +1,4 @@
 node_modules
 primeiro-projeto-node/tmp/*
 !primeiro-projeto-node/tmp/.gitkeep
+coverage
