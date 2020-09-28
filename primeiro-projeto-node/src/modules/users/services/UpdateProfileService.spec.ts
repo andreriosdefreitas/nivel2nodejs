@@ -1,4 +1,5 @@
 import AppError from '@shared/errors/AppError';
+import { uuid } from 'uuidv4';
 import FakeUserRepository from '../repositories/FakeUsersRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import UpdateProfileService from './UpdateProfileService';
@@ -104,6 +105,16 @@ describe('UpdateProfile', () => {
         await expect(
             updateProfileService.execute({
                 user_id: user.id,
+                name: 'Joao Silva',
+                email: 'joao@test.com',
+            }),
+        ).rejects.toBeInstanceOf(AppError);
+    });
+
+    it('should not be able to update non existing user', async () => {
+        await expect(
+            updateProfileService.execute({
+                user_id: uuid(),
                 name: 'Joao Silva',
                 email: 'joao@test.com',
             }),
