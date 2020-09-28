@@ -1,0 +1,5 @@
+export default interface IFindInMonthProviderDTO {
+    provider_id: string;
+    month: number;
+    year: number;
+}
