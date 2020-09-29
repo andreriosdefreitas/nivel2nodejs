@@ -1,6 +1,6 @@
 import AppError from '@shared/errors/AppError';
 import { uuid } from 'uuidv4';
-import FakeUserRepository from '../repositories/FakeUsersRepository';
+import FakeUserRepository from '../repositories/fakes/FakeUsersRepository';
 import ShowProfileService from './ShowProfileService';
 
 let fakeUsersRepository: FakeUserRepository;

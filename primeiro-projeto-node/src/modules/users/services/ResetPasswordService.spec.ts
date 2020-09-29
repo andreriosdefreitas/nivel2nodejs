@@ -1,6 +1,6 @@
 import AppError from '@shared/errors/AppError';
-import FakeUserRepository from '@modules/users/repositories/FakeUsersRepository';
-import FakeUserTokensRepository from '../repositories/FakeUserTokensRepository';
+import FakeUserRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import FakeUserTokensRepository from '../repositories/fakes/FakeUserTokensRepository';
 import ResetPasswordService from './ResetPasswordService';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 

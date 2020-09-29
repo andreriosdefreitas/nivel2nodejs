@@ -19,7 +19,7 @@ class ListProvidersService {
             except_user_id: user_id,
         });
 
-        if (!users) {
+        if (users.length === 0) {
             throw new AppError('User not found');
         }
 

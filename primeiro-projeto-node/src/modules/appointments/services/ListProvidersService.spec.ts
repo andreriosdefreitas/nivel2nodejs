@@ -1,4 +1,5 @@
 import FakeUserRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
+import AppError from '@shared/errors/AppError';
 import ListProvidersService from './ListProvidersService';
 
 let fakeUsersRepository: FakeUserRepository;
@@ -35,5 +36,13 @@ describe('ListProviders', () => {
         });
 
         expect(providers).toEqual([user1, user2]);
+    });
+
+    it('should not be able to list the providers if user id is invalid', async () => {
+        await expect(
+            listProvidersService.execute({
+                user_id: '123',
+            }),
+        ).rejects.toBeInstanceOf(AppError);
     });
 });
