@@ -5,7 +5,9 @@ import AppointmentsController from '../controllers/AppointmentsController';
 const appointmentsRouter = Router();
 
 appointmentsRouter.use(ensureAuthtenticated);
+
 const appointmentsController = new AppointmentsController();
+
 appointmentsRouter.post('/', async (request, response) => {
     appointmentsController.create(request, response);
 });
