@@ -1,6 +1,7 @@
-import { getHours, isBefore, startOfHour } from 'date-fns';
+import { format, getHours, isBefore, startOfHour } from 'date-fns';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
+import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import IApoointmentsRepository from '../repositories/IAppointmentsRepository';
 
@@ -15,6 +16,9 @@ class CreateAppointmentService {
     constructor(
         @inject('AppointmentsRepository')
         private appointmentsRepository: IApoointmentsRepository,
+
+        @inject('NotificationsRepository')
+        private notificationsRepository: INotificationsRepository,
     ) {}
 
     public async execute({
@@ -40,10 +44,25 @@ class CreateAppointmentService {
             );
         }
 
+        const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
+            appointmentDate,
+        );
+
+        if (findAppointmentInSameDate) {
+            throw new AppError('This appointment is aready booked');
+        }
+
         const appointment = await this.appointmentsRepository.create({
             provider_id,
             user_id,
             date: appointmentDate,
+        });
+
+        const dateFormated = format(appointmentDate, "dd/MM/yyyy 'às' HH:mm");
+
+        await this.notificationsRepository.create({
+            recipient_id: provider_id,
+            content: `Novo agendamento para dia ${dateFormated}`,
         });
 
         return appointment;
