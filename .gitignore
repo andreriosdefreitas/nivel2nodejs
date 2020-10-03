@@ -3,3 +3,5 @@ primeiro-projeto-node/tmp/*
 !primeiro-projeto-node/tmp/.gitkeep
 coverage
 dist
+.env
+ormconfig.json
