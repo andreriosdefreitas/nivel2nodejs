@@ -1,5 +1,5 @@
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import AppError from '@shared/errors/AppError';
-import { getDate, getDaysInMonth } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
@@ -16,6 +16,9 @@ class ListProviderAppointmentsService {
     constructor(
         @inject('AppointmentsRepository')
         private appointmentsRepository: IAppointmentsRepository,
+
+        @inject('CacheProvider')
+        private cacheProvider: ICacheProvider,
     ) {}
 
     public async execute({
@@ -32,6 +35,8 @@ class ListProviderAppointmentsService {
                 day,
             },
         );
+
+        await this.cacheProvider.save('asd', 'asd');
 
         return appointments;
     }
