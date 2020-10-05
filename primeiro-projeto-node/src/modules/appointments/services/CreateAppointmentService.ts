@@ -2,6 +2,7 @@ import { format, getHours, isBefore, startOfHour } from 'date-fns';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import IApoointmentsRepository from '../repositories/IAppointmentsRepository';
 
@@ -19,6 +20,9 @@ class CreateAppointmentService {
 
         @inject('NotificationsRepository')
         private notificationsRepository: INotificationsRepository,
+
+        @inject('CacheProvider')
+        private cacheProvider: ICacheProvider,
     ) {}
 
     public async execute({
@@ -44,13 +48,13 @@ class CreateAppointmentService {
             );
         }
 
-        // const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
-        //     appointmentDate,
-        // );
+        const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
+            appointmentDate,
+        );
 
-        // if (findAppointmentInSameDate) {
-        //     throw new AppError('This appointment is aready booked');
-        // }
+        if (findAppointmentInSameDate) {
+            throw new AppError('This appointment is aready booked');
+        }
 
         const appointment = await this.appointmentsRepository.create({
             provider_id,
@@ -58,12 +62,19 @@ class CreateAppointmentService {
             date: appointmentDate,
         });
 
-        const dateFormated = format(appointmentDate, "dd/MM/yyyy 'às' HH:mm");
+        const dateFormated = format(appointmentDate, "dd/MM/YYYY 'às' HH:mm");
 
         await this.notificationsRepository.create({
             recipient_id: provider_id,
             content: `Novo agendamento para dia ${dateFormated}`,
         });
+
+        await this.cacheProvider.invalidate(
+            `provider-appointments:${provider_id}:${format(
+                appointmentDate,
+                'yyyy-M-d',
+            )}`,
+        );
 
         return appointment;
     }
