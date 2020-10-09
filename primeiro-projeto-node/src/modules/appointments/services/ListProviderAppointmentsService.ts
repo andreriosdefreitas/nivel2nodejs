@@ -1,5 +1,4 @@
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
-import AppError from '@shared/errors/AppError';
 import { classToClass } from 'class-transformer';
 import { inject, injectable } from 'tsyringe';
 import Appointment from '../infra/typeorm/entities/Appointment';
