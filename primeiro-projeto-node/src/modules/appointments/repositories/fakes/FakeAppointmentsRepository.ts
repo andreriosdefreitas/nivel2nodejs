@@ -9,9 +9,14 @@ import { uuid } from 'uuidv4';
 class FakeAppointmentsRepository implements IApoointmentsRepository {
     private appointments: Appointment[] = [];
 
-    public async findByDate(date: Date): Promise<Appointment | undefined> {
-        const findAppointment = this.appointments.find(appointment =>
-            isEqual(appointment.date, date),
+    public async findByDate(
+        date: Date,
+        provider_id: string,
+    ): Promise<Appointment | undefined> {
+        const findAppointment = this.appointments.find(
+            appointment =>
+                isEqual(appointment.date, date) &&
+                provider_id === appointment.provider_id,
         );
         return findAppointment;
     }
