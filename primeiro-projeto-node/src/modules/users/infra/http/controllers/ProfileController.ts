@@ -9,7 +9,7 @@ export default class ProfileController {
         const showProfileService = container.resolve(ShowProfileService);
         const user_id = request.user.id;
         const user = await showProfileService.execute({ user_id });
-        return response.json({ user: classToClass(user) });
+        return response.json(classToClass(user));
     }
 
     public async update(
@@ -26,6 +26,6 @@ export default class ProfileController {
             old_password,
             password,
         });
-        return response.json({ user: classToClass(user) });
+        return response.json(classToClass(user));
     }
 }
